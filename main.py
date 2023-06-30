@@ -29,4 +29,12 @@ def get_pages():
     return response_results
 
 
-get_pages()
+def print_pages(pages):
+    for page in pages:
+        properties = page['properties']
+        item_title = properties['Item Name']['title']
+        item_name = '' if len(item_title) == 0 else item_title[0]['text']['content']
+        print(item_name)
+
+
+print_pages(get_pages())
