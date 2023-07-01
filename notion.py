@@ -1,7 +1,7 @@
 import os
 import json
 import requests
-from pin import new_pin, pin_print
+from trm import trm_print
 
 TOKEN = os.environ['TOKEN']
 
@@ -13,11 +13,10 @@ headers = {
 
 
 def get_pages(db_id):
-    pin = new_pin()
     url = f'https://api.notion.com/v1/databases/{db_id}/query'
     payload = {'page_size': 100}
 
-    pin_print('Posting payload...', pin)
+    trm_print('Posting payload to get pages...')
     response = requests.post(url, json=payload, headers=headers)
     response_json = response.json()
     data = {db_id: response_json}
@@ -25,25 +24,23 @@ def get_pages(db_id):
     with open('dbs.json', 'w') as file:
         json.dump(data, file, indent=4, sort_keys=True)
 
-    pin_print('Done.', pin)
+    trm_print('Done.')
 
 
 def read_dbs(db_id):
-    pin = new_pin()
-    pin_print('Reading db...', pin)
+    trm_print('Reading db...')
 
     pages = {}
     with open('dbs.json', 'r') as file:
         data = json.load(file)
         pages = data[db_id]['results']
 
-    pin_print('Done.', pin)
+    trm_print('Done.')
     return pages
 
 
 def print_pages(db_id):
-    pin = new_pin()
-    pin_print('Printing pages...', pin)
+    trm_print('Printing pages...')
 
     pages = read_dbs(db_id)
     for page in pages:
@@ -57,4 +54,4 @@ def print_pages(db_id):
         id_name = props['ID Name']['formula']['string']
         print(id_name)
 
-    pin_print('Done.', pin)
+    trm_print('Done.')
