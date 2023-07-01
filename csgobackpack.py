@@ -2,8 +2,6 @@ import json
 import requests
 from trm import trm_print
 
-headers = {'Content-Type': 'application/json'}
-
 
 def get_item_list():
     trm_print('Getting item list...')

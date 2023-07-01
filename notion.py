@@ -55,3 +55,18 @@ def print_pages(db_id):
         print(id_name)
 
     trm_print('Done.')
+
+
+def add_page(db_id, data):
+    url = 'https://api.notion.com/v1/pages'
+    payload = {
+        'parent': {
+            'database_id': db_id,
+            'type': 'database_id'
+        },
+        'properties': data
+    }
+
+    response = requests.post(url, headers=headers, json=payload)
+    response_json = response.json()
+    print(response_json)
