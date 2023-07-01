@@ -3,7 +3,8 @@ import json
 import requests
 
 TOKEN = os.environ['TOKEN']
-DB_ID = os.environ['DB_ID']
+ID_CURRENT_INV = os.environ['ID_CURRENT_INV']
+ID_WISHLIST = os.environ['ID_WISHLIST']
 
 headers = {
     'Authorization': 'Bearer ' + TOKEN,
@@ -12,7 +13,7 @@ headers = {
 }
 
 
-def get_pages():
+def get_pages(DB_ID):
     url = f'https://api.notion.com/v1/databases/{DB_ID}/query'
     payload = {'page_size': 100}
 
@@ -23,18 +24,24 @@ def get_pages():
     response_results = response_json['results']
     # print(len(response_results), response_results)
 
-    for result in response_results:
-        print(json.dumps(result, indent=4, sort_keys=True), end='\n\n')
+    # for result in response_results:
+    #     print(json.dumps(result, indent=4, sort_keys=True), end='\n\n')
 
     return response_results
 
 
 def print_pages(pages):
     for page in pages:
-        properties = page['properties']
-        item_title = properties['Item Name']['title']
-        item_name = '' if len(item_title) == 0 else item_title[0]['text']['content']
-        print(item_name)
+        props = page['properties']
+        item_title = props['Item Name']['title']
+
+        item_name = ''
+        if len(item_title) > 0:
+            item_name = item_title[0]['plain_text']
+
+        id_name = props['ID Name']['formula']['string']
+
+        print(id_name)
 
 
-print_pages(get_pages())
+print_pages(get_pages(ID_CURRENT_INV))
