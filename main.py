@@ -19,7 +19,11 @@ def get_pages(DB_ID):
 
     response = requests.post(url, json=payload, headers=headers)
     response_json = response.json()
-    # print(json.dumps(response_json, indent=4))
+    data = {DB_ID: response_json}
+
+    print(json.dumps(response_json, indent=4))
+    with open('dbs.json', 'w') as file:
+        json.dump(data, file, indent=4, sort_keys=True)
 
     response_results = response_json['results']
     # print(len(response_results), response_results)
@@ -44,4 +48,5 @@ def print_pages(pages):
         print(id_name)
 
 
-print_pages(get_pages(ID_CURRENT_INV))
+# print_pages(get_pages(ID_CURRENT_INV))
+print_pages(get_pages(ID_WISHLIST))
