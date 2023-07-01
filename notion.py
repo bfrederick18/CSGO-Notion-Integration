@@ -1,7 +1,7 @@
 import os
 import json
 import requests
-from pin import next_pin, new_pin, pin_print
+from pin import new_pin, pin_print
 
 TOKEN = os.environ['TOKEN']
 
