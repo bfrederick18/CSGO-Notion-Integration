@@ -70,3 +70,12 @@ def add_page(db_id, data):
     response = requests.post(url, headers=headers, json=payload)
     response_json = response.json()
     print(response_json)
+
+
+def update_page(page_id, data):
+    url = f'https://api.notion.com/v1/pages/{page_id}'
+    payload = {'properties': data}
+
+    response = requests.patch(url, headers=headers, json=payload)
+    response_json = response.json()
+    print(response_json)
