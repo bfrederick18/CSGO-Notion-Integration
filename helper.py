@@ -45,26 +45,9 @@ def add_item(db_id, id_name):
     add_page(db_id, data)
 
 
-def id_name_to_page_id(db_id, id_name, get_new_pages=True):
-    if get_new_pages:
-        get_pages(db_id)
-    pages = read_dbs(db_id)
-    for page in pages:
-        props = page['properties']
-        plain_text = props['ID Name']['title'][0]['plain_text']
-        if id_name == plain_text:
-            return page['id']
-    return ''
-
-
-def update_item(db_id, id_name, page_id='', get_new_pages=True):
+def update_item(db_id, id_name, page_id):
     item_price_json = get_item_price_json(id_name)
-    print(item_price_json)
     data = item_price_json_to_update_data(item_price_json)
-    if page_id == '':
-        page_id = id_name_to_page_id(db_id,
-                                     id_name,
-                                     get_new_pages=get_new_pages)
     update_page(page_id, data)
 
 
@@ -75,10 +58,6 @@ def refresh_item(db_id, id_name):
         props = page['properties']
         plain_text = props['ID Name']['title'][0]['plain_text']
         if id_name == plain_text:
-            update_item(db_id,
-                        id_name,
-                        page_id=page['id'],
-                        get_new_pages=False)
+            update_item(db_id, id_name, page['id'])
             return
-
     add_item(db_id, id_name)
